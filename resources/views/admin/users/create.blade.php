@@ -2,6 +2,8 @@
 
 @section('content')
 
+    <h1>Create a User</h1>
+
     {!! Form::open(['method'=>'POST', 'action'=>'AdminUsersController@store', 'files'=>true]) !!}
 
     <div class="form-group">

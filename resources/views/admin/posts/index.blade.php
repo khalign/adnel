@@ -26,7 +26,7 @@
                 <tr>
                     <td>{{$post->id}}</td>
                     <td><a href="{{route('admin.posts.edit', $post->id)}}">{{$post->title}}</a></td>
-                    <td>{{$post->body}}</td>
+                    <td>{{str_limit($post->body, 13)}}</td>
                     <td>{{$post->user->name}}</td>
                     <td>{{$post->category ? $post->category->name : 'no category'}}</td>
                     <td><img height="49" src="{{$post->photo  ? $post->photo->path : 'http://placehold.it/400x400'}}" alt=""></td>

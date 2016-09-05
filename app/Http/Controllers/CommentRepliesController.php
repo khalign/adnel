@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Category;
+use App\CommentReply;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use Illuminate\Support\Facades\Auth;
 
-class AdminCategoriesController extends Controller
+class CommentRepliesController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,10 +18,6 @@ class AdminCategoriesController extends Controller
     public function index()
     {
         //
-        $categories = Category::all();
-
-        return view('admin.categories.index', compact('categories'));
-
     }
 
     /**
@@ -33,6 +30,28 @@ class AdminCategoriesController extends Controller
         //
     }
 
+
+    public function reply(Request $request)
+    {
+
+        $user = Auth::user();
+
+        $data =
+            [
+                'comment_id' => $request->comment_id,
+                'author' => $user->name,
+                'email' => $user->email,
+                'photo' => $user->photo->path,
+                'body' => $request->body
+
+            ];
+
+        CommentReply::create($data);
+        return redirect()->back();
+
+        //return 'it works';
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -42,10 +61,6 @@ class AdminCategoriesController extends Controller
     public function store(Request $request)
     {
         //
-        Category::create($request->all());
-
-        return redirect('/admin/categories');
-
     }
 
     /**
@@ -68,9 +83,6 @@ class AdminCategoriesController extends Controller
     public function edit($id)
     {
         //
-        $category = Category::findOrFail($id);
-        return view('admin.categories.update', compact('category'));
-
     }
 
     /**
@@ -83,10 +95,6 @@ class AdminCategoriesController extends Controller
     public function update(Request $request, $id)
     {
         //
-
-        Category::findOrFail($id)->update($request->all());
-        return redirect('/admin/categories');
-
     }
 
     /**
@@ -98,7 +106,5 @@ class AdminCategoriesController extends Controller
     public function destroy($id)
     {
         //
-        Category::findOrFail($id)->delete();
-        return redirect('/admin/categories');
     }
 }
